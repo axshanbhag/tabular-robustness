@@ -1,0 +1,64 @@
+{
+  "protocol": "robustness_extension_v1_three_repeats",
+  "selection_seed": 20261026,
+  "suite_id": 99,
+  "max_new_datasets": 12,
+  "eligibility": {
+    "min_rows": 500,
+    "max_rows": 5000,
+    "min_features": 4,
+    "max_features": 100,
+    "max_classes": 10,
+    "min_class_count": 20,
+    "numeric_only": true
+  },
+  "excluded_dataset_ids": [
+    37,
+    40,
+    59,
+    61,
+    187,
+    1510
+  ],
+  "seeds": [
+    11,
+    22,
+    33,
+    44,
+    55
+  ],
+  "fractions": [
+    0.1,
+    0.5,
+    1.0
+  ],
+  "ratios": [
+    0.0,
+    0.5,
+    1.0
+  ],
+  "models": [
+    "LogisticRegression",
+    "RandomForest",
+    "CatBoost",
+    "TabPFN"
+  ],
+  "timing_repeats": 3,
+  "cpu_threads": 2,
+  "primary_accuracy": "New cohort only: baseline minus TabPFN augmentation loss, equal weight across both noise levels and all three fractions, then seeds and datasets. Report each baseline separately.",
+  "primary_timing": "Original six tasks: paired augmented/clean fit+first-predict ratios, median trials then mean seeds then equal datasets. Report every fraction and noise ratio.",
+  "secondary": "Half-training/full-noise contrast, all condition-specific contrasts, absolute BA, absolute times, first and repeated prediction times, failures.",
+  "inference": "Descriptive; no significance claims or seed-as-dataset inference. Original cohort is exploratory; prospective new cohort is not publicly preregistered.",
+  "excluded_dataset_names": [
+    "iris",
+    "wine",
+    "breast-w",
+    "breast-cancer-wisconsin",
+    "breast-cancer-wisconsin-diagnostic",
+    "sonar",
+    "ionosphere",
+    "diabetes",
+    "wdbc"
+  ],
+  "family_rule": "Retain only the first eligible mfeat variant; otherwise one dataset per case-insensitive OpenML name. Further unrecognized family dependence remains a limitation."
+}

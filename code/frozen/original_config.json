@@ -1,0 +1,49 @@
+{
+  "protocol": "v1",
+  "datasets": [
+    "iris",
+    "wine",
+    "breast_cancer",
+    "sonar",
+    "ionosphere",
+    "diabetes"
+  ],
+  "seeds": [
+    11,
+    22,
+    33,
+    44,
+    55
+  ],
+  "fractions": [
+    0.1,
+    0.25,
+    0.5,
+    0.75,
+    1.0
+  ],
+  "models": [
+    "LogisticRegression",
+    "RandomForest",
+    "TabPFN"
+  ],
+  "device": "cuda",
+  "checkpoint": "TabPFN V2",
+  "test_fraction": 0.2,
+  "versions": {
+    "python": "3.13.15",
+    "numpy": "2.1.3",
+    "pandas": "2.2.3",
+    "scipy": "1.16.3",
+    "scikit-learn": "1.6.1",
+    "matplotlib": "3.10.0",
+    "torch": "2.11.0+cu130",
+    "tabpfn": "9.2.0"
+  },
+  "pilot": false,
+  "baselines_only": false,
+  "rf_trees": 300,
+  "lr_C": 1.0,
+  "tabpfn_estimators": 4,
+  "script_sha256": "79c5b6e883aca0daeffa7ef7daef1162c8dcd648545ea2e1ea904be8a00d4c0a"
+}
