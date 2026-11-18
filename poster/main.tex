@@ -1,0 +1,57 @@
+% Overleaf: pdfLaTeX. Finished page: 40 x 30 inches, landscape.
+% 48 x 36 design canvas scaled into a 38.667 x 29 inch safe area.
+% White trim margins: 0.667 inches left/right; 0.5 inches top/bottom.
+\documentclass[final]{beamer}
+\usepackage[size=custom,width=101.6,height=76.2,scale=1]{beamerposter}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern,graphicx,booktabs,tikz,amsmath}
+\usetikzlibrary{arrows.meta}
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{headline}{}\setbeamertemplate{footline}{}
+\definecolor{ink}{HTML}{172C40}\definecolor{teal}{HTML}{007F79}
+\definecolor{pale}{HTML}{EDF5F5}\definecolor{line}{HTML}{D9E2E9}
+\setbeamercolor{normal text}{fg=ink,bg=white}
+\newcommand{\bodyfont}{\fontsize{32}{39}\selectfont\mdseries\raggedright}
+\newcommand{\smallfont}{\fontsize{27}{33}\selectfont\mdseries\raggedright}
+\newcommand{\heading}[1]{{\fontsize{42}{49}\selectfont\bfseries #1}\par\vspace{0.15in}}
+\newcommand{\place}[4]{\node[anchor=north west,inner sep=0,text width=#3in,align=left] at (#1,-#2) {#4};}
+\begin{document}\begin{frame}[t]
+\begin{tikzpicture}[remember picture,overlay,x=1in,y=1in]
+\begin{scope}[shift={(current page.north west)}]
+\begin{scope}[xshift=0.666667in,yshift=-0.5in,scale=0.80555556,transform shape]
+\fill[ink] (0,0) rectangle (48,-4.65);
+\place{1}{0.52}{46}{\color{white}\fontsize{82}{90}\selectfont\bfseries Irrelevant Features in Small-Data Tabular Learning:\\Accuracy Robustness and Runtime Costs}
+\place{1.05}{3.12}{45}{\color{white}\fontsize{34}{41}\selectfont Arpita Shanbhag\enspace $\vert$\enspace Las Positas College}
+\place{1.05}{3.88}{45}{\color{white!80}\fontsize{24}{29}\selectfont Stanford Data-Centric AI Workshop: Foundations, Agents, and Scientific Discovery\enspace $\vert$\enspace November 3, 2026}
+\fill[pale] (0,-4.65) rectangle (48,-6.65);
+\place{1.05}{4.98}{46}{\fontsize{38}{46}\selectfont\bfseries Does predictive robustness to irrelevant features also imply low computational overhead?}
+\place{1.05}{5.83}{46}{\fontsize{32}{39}\selectfont We measure accuracy changes and runtime separately under the same controlled feature perturbations.}
+\place{1.05}{7.03}{10.3}{\heading{01\quad Matched design}\bodyfont Six numerical datasets; five stratified 80/20 splits. Nested training pools preserve matched examples across models.}
+\foreach \x/\w in {12/9.3,23/10,35/11.9}{\fill[pale,rounded corners=8pt] (\x,-7.05) rectangle (\x+\w,-9.93);}
+\place{12.35}{7.35}{8.6}{\fontsize{32}{38}\selectfont\bfseries Training size\par\bodyfont 10\%, 50\%, 100\%\par of each training pool}
+\place{23.35}{7.35}{9.3}{\fontsize{32}{38}\selectfont\bfseries Feature quality\par\bodyfont Clean; +50\%; +100\% independent $N(0,1)$ columns}
+\place{35.35}{7.35}{11.2}{\fontsize{32}{38}\selectfont\bfseries Four fixed pipelines\par\bodyfont TabPFN V2, random forest (RF), logistic regression (LR), CatBoost}
+\draw[-{Stealth[length=12pt]},line width=3pt,teal] (21.55,-8.5)--(22.65,-8.5);
+\draw[-{Stealth[length=12pt]},line width=3pt,teal] (33.25,-8.5)--(34.65,-8.5);
+\place{1.05}{10.25}{46}{\smallfont Shared examples and noise realizations support paired comparisons. Noise is added before pipeline preprocessing; imputation and LR scaling use training data only. No hyperparameter tuning. One completed session: 1,080 configurations $\times$ 3 measured repetitions = 3,240 trials, not independent datasets.}
+\draw[line,line width=1.5pt] (1,-11.65)--(47,-11.65);
+\place{1.05}{12.03}{22.1}{\heading{02\quad Accuracy robustness varies}\bodyfont Loss = clean $-$ augmented balanced accuracy, in percentage points. Lower loss means less degradation, not necessarily higher absolute accuracy.}
+\place{24.8}{12.03}{22.1}{\heading{03\quad Robustness still has a runtime cost}\bodyfont Overhead compares augmented with clean fit-plus-first-prediction time. Lower overhead means a smaller relative increase, not faster absolute execution.}
+\place{0.85}{14.25}{22.4}{\includegraphics[width=22.4in]{figures/augmentation_loss.pdf}}
+\place{24.6}{14.25}{22.4}{\includegraphics[width=22.4in]{figures/runtime_overhead.pdf}}
+\place{1.05}{21.95}{22.1}{\smallfont Points average five splits within each dataset, then weight datasets equally. Negative loss denotes an observed improvement. Lines connect evaluated fractions; no population uncertainty intervals are implied.}
+\place{24.8}{21.95}{22.1}{\smallfont\textbf{TabPFN: Tesla T4 GPU. All baselines: CPU.} Median paired ratios over three repetitions, then equal means over splits and datasets. Warm-ups, randomized order, and CUDA synchronization support timing comparisons.}
+\place{1.05}{23.5}{22.1}{\bodyfont Averaged equally across datasets and six conditions, TabPFN's loss is \textbf{2.15 percentage points smaller than LR's}, 0.25 smaller than RF's, and 0.10 smaller than CatBoost's.\par\vspace{0.18in}\textbf{The CatBoost difference is small and mixed:} four datasets favor TabPFN; Sonar and Diabetes reverse. Dataset contrasts range from $-0.311$ to $0.516$ percentage points. At 10\% training/full noise, TabPFN loses 2.034 points versus 1.860 for RF and 1.217 for CatBoost.}
+\place{24.8}{23.5}{22.1}{\bodyfont With one added feature per original feature, TabPFN overhead is \textbf{7.1, 22.0, and 43.0 percent} across increasing training fractions. CatBoost's corresponding overheads are 66.5, 117.0, and 138.3 percent.\par\vspace{0.18in}The endpoint includes pipeline preprocessing within fit/predict, but excludes construction, data assembly, checkpoint download, and repeated prediction. It is not application latency. Small baseline overheads can be sensitive to aggregation.}
+\draw[line,line width=1.5pt] (1,-27.25)--(47,-27.25);
+\place{1.05}{27.65}{22.1}{\heading{04\quad Fitting and prediction differ}\smallfont Half training/full noise, a secondary condition selected after inspecting accuracy. Times are equal-dataset means of per-split medians, in milliseconds.\par\vspace{0.16in}
+{\bodyfont\renewcommand{\arraystretch}{1.18}\begin{tabular}{lrrr}\toprule
+ & Fit & First batch & Second batch\\\midrule
+CatBoost (CPU) & 2813.69 & 1.61 & 1.35\\
+TabPFN V2 (GPU) & 83.05 & 155.73 & 155.90\\\bottomrule
+\end{tabular}}\par\vspace{0.18in}\smallfont CatBoost's larger combined cost is dominated by fitting. Its batch prediction is faster here. These are not per-example latencies or a hardware-neutral serving benchmark.}
+\place{24.8}{27.65}{22.1}{\heading{05\quad Scope and practical implication}\bodyfont Six convenience-selected tasks: Iris, Wine, Breast Cancer, Sonar, Ionosphere, and Diabetes; 12--614 training examples. Fixed configurations, Gaussian distractors, exploratory accuracy comparisons, and one timing environment constrain generalization.\par\vspace{0.18in}Repeated splits and nested subsets are dependent. We do not establish significance, equivalence, feature-selection savings, or energy savings. Noisy features known by construction differ from unknown distractors in deployed data.}
+\fill[pale] (0,-32.45) rectangle (48,-34.05);
+\place{1.05}{32.75}{46}{\fontsize{34}{42}\selectfont\bfseries\color{teal}Evaluate predictive robustness and runtime separately across training sizes and feature-quality conditions.}
+\place{1.05}{34.35}{30}{\fontsize{19}{24}\selectfont\textbf{Selected context}\quad Hollmann et al., \emph{Nature} 637, 319--326 (2025), doi:10.1038/s41586-024-08328-6.\par Hu and Ghelichi, \emph{Noise Immunity in In-Context Tabular Learning}, arXiv:2604.04868v2 (2026).\par Feuer, Hegde, and Cohen, \emph{Scaling TabPFN}, arXiv:2311.10609 (2023).}
+\end{scope}\end{scope}\end{tikzpicture}\end{frame}\end{document}
